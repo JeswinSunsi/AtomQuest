@@ -43,6 +43,8 @@ const navItems = computed(() => {
 
   if (role === 'admin') {
     items.push({ label: 'Audit Trail', icon: 'audit', path: '/admin/audit', roles: ['admin'] })
+    items.push({ label: 'Escalation Rules', icon: 'escalation', path: '/admin/escalation-rules', roles: ['admin'] })
+    items.push({ label: 'Escalation Log', icon: 'escalation-log', path: '/admin/escalation-log', roles: ['admin'] })
   }
 
   return items
@@ -86,6 +88,8 @@ function handleLogout() {
             <svg v-else-if="item.icon === 'push'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5m0 0l-7 7m7-7l7 7"/></svg>
             <svg v-else-if="item.icon === 'report'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
             <svg v-else-if="item.icon === 'audit'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <svg v-else-if="item.icon === 'escalation'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            <svg v-else-if="item.icon === 'escalation-log'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
           </span>
           <span class="nav-label">{{ item.label }}</span>
         </router-link>

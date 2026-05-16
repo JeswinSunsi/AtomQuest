@@ -76,6 +76,19 @@ const routes = [
     component: () => import('@/views/admin/Reports.vue'),
     meta: { roles: ['admin', 'manager'] },
   },
+  // Escalation routes
+  {
+    path: '/admin/escalation-rules',
+    name: 'EscalationRules',
+    component: () => import('@/views/admin/EscalationRules.vue'),
+    meta: { roles: ['admin'] },
+  },
+  {
+    path: '/admin/escalation-log',
+    name: 'EscalationLog',
+    component: () => import('@/views/admin/EscalationLog.vue'),
+    meta: { roles: ['admin'] },
+  },
 ]
 
 const router = createRouter({

@@ -10,6 +10,7 @@ import { useGoalStore } from './stores/goalStore'
 import { useCheckinStore } from './stores/checkinStore'
 import { useKpiStore } from './stores/kpiStore'
 import { useAuditStore } from './stores/auditStore'
+import { useEscalationStore } from './stores/escalationStore'
 
 const app = createApp(App)
 const pinia = createPinia()
@@ -23,11 +24,13 @@ const goalStore = useGoalStore()
 const checkinStore = useCheckinStore()
 const kpiStore = useKpiStore()
 const auditStore = useAuditStore()
+const escalationStore = useEscalationStore()
 
 authStore.init()
 goalStore.init()
 checkinStore.init()
 kpiStore.init()
 auditStore.init()
+escalationStore.init()
 
 app.mount('#app')

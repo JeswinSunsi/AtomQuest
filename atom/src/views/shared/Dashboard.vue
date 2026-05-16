@@ -3,10 +3,12 @@ import { computed } from 'vue'
 import { useAuthStore } from '@/stores/authStore'
 import { useGoalStore, SHEET_STATUS } from '@/stores/goalStore'
 import { useCheckinStore, CHECK_IN_WINDOWS, QUARTERS } from '@/stores/checkinStore'
+import { useEscalationStore } from '@/stores/escalationStore'
 
 const auth = useAuthStore()
 const goalStore = useGoalStore()
 const checkinStore = useCheckinStore()
+const escalationStore = useEscalationStore()
 
 const user = computed(() => auth.currentUser)
 
@@ -46,6 +48,8 @@ const completionRate = computed(() => {
   if (!total) return 0
   return Math.round((totalLocked.value / total) * 100)
 })
+
+const escalationStats = computed(() => escalationStore.stats)
 
 // Checkin completion stats
 const checkinStats = computed(() => {
@@ -302,6 +306,19 @@ function getStatusClass(status) {
         </div>
       </div>
 
+      <!-- Escalation Summary -->
+      <div class="card mb-lg" v-if="escalationStats.totalOpen > 0">
+        <div class="flex justify-between items-center mb-md">
+          <h3>Active Escalations</h3>
+          <router-link to="/admin/escalation-log" class="btn btn-sm btn-secondary">View All</router-link>
+        </div>
+        <div class="grid-3">
+          <div class="card-glass" style="text-align:center"><div class="text-sm font-semibold text-secondary mb-sm">Open</div><div class="stat-value" style="font-size:1.5rem;color:var(--color-danger)!important">{{ escalationStats.totalOpen }}</div></div>
+          <div class="card-glass" style="text-align:center"><div class="text-sm font-semibold text-secondary mb-sm">Resolved Today</div><div class="stat-value" style="font-size:1.5rem">{{ escalationStats.resolvedToday }}</div></div>
+          <div class="card-glass" style="text-align:center"><div class="text-sm font-semibold text-secondary mb-sm">Active Rules</div><div class="stat-value" style="font-size:1.5rem">{{ escalationStats.activeRules }}</div></div>
+        </div>
+      </div>
+
       <!-- Quick Actions -->
       <div class="card">
         <h3 class="mb-md">Administration</h3>
@@ -309,6 +326,8 @@ function getStatusClass(status) {
           <router-link to="/admin/push-kpi" class="btn btn-primary">Push KPI</router-link>
           <router-link to="/admin/audit" class="btn btn-secondary">Audit Trail</router-link>
           <router-link to="/reports" class="btn btn-secondary">Reports & Export</router-link>
+          <router-link to="/admin/escalation-rules" class="btn btn-secondary">Escalation Rules</router-link>
+          <router-link to="/admin/escalation-log" class="btn btn-secondary">Escalation Log</router-link>
         </div>
       </div>
     </template>
