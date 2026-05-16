@@ -130,6 +130,26 @@ function handleLogin() {
   display: flex;
   min-height: 100vh;
   background: var(--bg-primary);
+  color-scheme: light;
+  /* Force light theme variables */
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --border-subtle: #e2e8f0;
+  --border-light: #cbd5e1;
+  --border-accent: #3b82f6;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-tertiary: #475569;
+  --text-muted: #64748b;
+  --brand-primary: #0f62fe;
+  --brand-primary-hover: #0353e9;
+  --brand-primary-active: #0043ce;
+  --brand-surface: #edf5ff;
+  --color-success-bg: #defbe6;
+  --color-warning-bg: #fcf4d6;
+  --color-danger-bg: #fff1f1;
+  --color-info-bg: #edf5ff;
 }
 
  
@@ -148,16 +168,6 @@ function handleLogin() {
   border-right: 1px solid var(--border-subtle);
 }
 
-[data-theme="dark"] .login-visual {
-  background-color: #020617;
-  background-image: 
-    radial-gradient(at 0% 0%, #0f172a 0px, transparent 50%),
-    radial-gradient(at 100% 0%, #172a5a 0px, transparent 50%),
-    radial-gradient(at 100% 100%, #020617 0px, transparent 50%),
-    radial-gradient(at 0% 100%, #0f172a 0px, transparent 50%);
-  color: #ffffff;
-  border-right: 1px solid var(--border-subtle);
-}
 
 @media (min-width: 1024px) {
   .login-visual {
@@ -191,11 +201,6 @@ function handleLogin() {
   box-shadow: var(--shadow-sm);
 }
 
-[data-theme="dark"] .brand-logo {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-}
 
 .visual-title {
   font-size: 3rem;
@@ -205,9 +210,6 @@ function handleLogin() {
   color: var(--text-primary);
 }
 
-[data-theme="dark"] .visual-title {
-  color: #ffffff;
-}
 
 .visual-subtitle {
   font-size: 1.125rem;
@@ -217,9 +219,6 @@ function handleLogin() {
   color: var(--text-secondary);
 }
 
-[data-theme="dark"] .visual-subtitle {
-  color: #ffffff;
-}
 
 .visual-decorative {
   position: relative;
@@ -239,20 +238,12 @@ function handleLogin() {
   transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
 
-[data-theme="dark"] .glass-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
-}
 
 .glass-card:hover {
   transform: rotate(0deg) translateY(-5px);
   box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.12);
 }
 
-[data-theme="dark"] .glass-card:hover {
-  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.4);
-}
 
 .mock-header {
   display: flex;
@@ -271,7 +262,6 @@ function handleLogin() {
 .mock-dot:nth-child(2) { background: #ffbd2e; }
 .mock-dot:nth-child(3) { background: #27c93f; }
 
-[data-theme="dark"] .mock-dot { background: rgba(255, 255, 255, 0.25); }
 
 .mock-body {
   display: flex;
@@ -289,7 +279,6 @@ function handleLogin() {
 .mock-line.success { background: var(--color-success); }
 .mock-line.warning { background: var(--color-warning); }
 
-[data-theme="dark"] .mock-line { background: rgba(255, 255, 255, 0.2); }
 
  
 .visual-overlay {
@@ -306,10 +295,6 @@ function handleLogin() {
   opacity: 0.6;
 }
 
-[data-theme="dark"] .visual-overlay {
-  background-image: 
-    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-}
 
  
 .login-panel {
@@ -443,7 +428,4 @@ function handleLogin() {
   background-position: center;
 }
 
-[data-theme="dark"] .form-footer p::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'%3E%3C/rect%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'%3E%3C/path%3E%3C/svg%3E");
-}
 </style>
