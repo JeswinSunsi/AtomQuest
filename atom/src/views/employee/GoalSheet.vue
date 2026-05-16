@@ -13,7 +13,7 @@ const toast = useToastStore()
 const employeeId = computed(() => auth.currentUser?.id)
 const sheet = computed(() => goalStore.getSheet(employeeId.value))
 
-// Initialize sheet if needed
+
 if (!sheet.value) {
   goalStore.createSheet(employeeId.value)
 }
@@ -23,7 +23,7 @@ const canEdit = computed(() => {
   return [SHEET_STATUS.DRAFT, SHEET_STATUS.RETURNED].includes(sheet.value.status)
 })
 
-// Goals as reactive local state for editing
+
 const localGoals = ref([])
 
 function syncLocalGoals() {
@@ -35,7 +35,7 @@ function syncLocalGoals() {
 syncLocalGoals()
 watch(sheet, syncLocalGoals, { deep: true })
 
-// Validation
+
 const totalWeightage = computed(() =>
   localGoals.value.reduce((sum, g) => sum + Number(g.weightage || 0), 0)
 )
@@ -90,14 +90,14 @@ function removeGoal(index) {
 }
 
 function saveGoals() {
-  // Sync local goals back to store
+  
   const s = goalStore.getSheet(employeeId.value) || goalStore.createSheet(employeeId.value)
 
-  // Keep shared KPI goals and update the rest
+  
   s.goals = localGoals.value.map(lg => {
     const existing = s.goals.find(g => g.id === lg.id)
     if (existing) {
-      // Update existing
+      
       if (lg.isSharedKPI) {
         existing.weightage = Number(lg.weightage)
       } else {
@@ -112,7 +112,7 @@ function saveGoals() {
       }
       return existing
     } else {
-      // New goal
+      
       return {
         ...lg,
         id: 'goal_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),

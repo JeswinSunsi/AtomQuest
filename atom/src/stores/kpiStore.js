@@ -16,7 +16,7 @@ export const useKpiStore = defineStore('kpi', () => {
     localStorage.setItem('aq_sharedKpis', JSON.stringify(sharedKpis.value))
   }
 
-  // Push a shared KPI to multiple employees
+
   function pushKPI(kpiData, employeeIds, primaryOwnerId) {
     const goalStore = useGoalStore()
     const kpiId = 'kpi_' + Date.now()
@@ -34,16 +34,16 @@ export const useKpiStore = defineStore('kpi', () => {
     }
     sharedKpis.value.push(kpi)
 
-    // Add goal to each employee's sheet
+
     for (const empId of employeeIds) {
-      goalStore.createSheet(empId) // Ensure sheet exists
+      goalStore.createSheet(empId)
       goalStore.addGoal(empId, {
         thrustArea: kpiData.thrustArea,
         title: kpiData.title,
         description: kpiData.description || '',
         uom: kpiData.uom,
         target: kpiData.target,
-        weightage: 0, // Employee to adjust
+        weightage: 0,
         isSharedKPI: true,
         primaryOwnerId,
         sharedKpiId: kpiId,
@@ -54,13 +54,13 @@ export const useKpiStore = defineStore('kpi', () => {
     return kpi
   }
 
-  // Sync achievement from primary owner to all linked goals
+
   function syncAchievement(kpiId, quarter) {
     const goalStore = useGoalStore()
     const kpi = sharedKpis.value.find(k => k.id === kpiId)
     if (!kpi) return
 
-    // Get primary owner's achievement
+
     const primarySheet = goalStore.getSheet(kpi.primaryOwnerId)
     if (!primarySheet) return
 
@@ -69,7 +69,7 @@ export const useKpiStore = defineStore('kpi', () => {
 
     const achievement = primaryGoal.achievements[quarter]
 
-    // Sync to all linked employees
+
     for (const empId of kpi.employeeIds) {
       if (empId === kpi.primaryOwnerId) continue
       const sheet = goalStore.getSheet(empId)

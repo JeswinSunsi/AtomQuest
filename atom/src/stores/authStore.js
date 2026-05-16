@@ -13,7 +13,7 @@ export const useAuthStore = defineStore('auth', () => {
   const currentUser = ref(null)
   const users = ref([])
 
-  // Initialize from localStorage or seed
+
   function init() {
     const stored = localStorage.getItem('aq_users')
     if (stored) {

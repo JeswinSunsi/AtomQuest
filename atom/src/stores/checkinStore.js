@@ -67,7 +67,7 @@ export const useCheckinStore = defineStore('checkins', () => {
 
   function isWindowOpen(quarter) {
     const now = new Date()
-    const month = now.getMonth() + 1 // 1-indexed
+    const month = now.getMonth() + 1
     const window = CHECK_IN_WINDOWS[quarter]
     if (!window) return false
     if (window.endMonth) {

@@ -18,7 +18,7 @@ const pinia = createPinia()
 app.use(pinia)
 app.use(router)
 
-// Initialize all stores
+
 const authStore = useAuthStore()
 const goalStore = useGoalStore()
 const checkinStore = useCheckinStore()

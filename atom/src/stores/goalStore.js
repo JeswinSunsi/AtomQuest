@@ -11,7 +11,7 @@ function generateSheetId() {
   return 'sheet_' + Date.now() + '_' + (_nextId++)
 }
 
-// Thrust areas
+
 export const THRUST_AREAS = [
   'Revenue Growth',
   'Customer Satisfaction',
@@ -30,7 +30,7 @@ export const UOM_TYPES = [
   { value: 'zero', label: 'Zero-based (0 = success)' },
 ]
 
-// Sheet statuses
+
 export const SHEET_STATUS = {
   DRAFT: 'draft',
   SUBMITTED: 'submitted',
@@ -39,7 +39,7 @@ export const SHEET_STATUS = {
   LOCKED: 'locked',
 }
 
-// Goal status for check-ins
+
 export const GOAL_STATUS = {
   NOT_STARTED: 'not_started',
   ON_TRACK: 'on_track',
@@ -60,7 +60,7 @@ export const useGoalStore = defineStore('goals', () => {
     localStorage.setItem('aq_goalSheets', JSON.stringify(goalSheets.value))
   }
 
-  // Create or get a goal sheet for an employee
+
   function getSheet(employeeId) {
     return goalSheets.value.find(s => s.employeeId === employeeId)
   }
@@ -83,7 +83,7 @@ export const useGoalStore = defineStore('goals', () => {
     return sheet
   }
 
-  // Add a goal to employee's sheet
+
   function addGoal(employeeId, goalData) {
     const sheet = getSheet(employeeId) || createSheet(employeeId)
     if (sheet.goals.length >= 8) return { error: 'Maximum 8 goals allowed' }
@@ -110,7 +110,7 @@ export const useGoalStore = defineStore('goals', () => {
     return { success: true, goal }
   }
 
-  // Update a goal
+
   function updateGoal(employeeId, goalId, updates) {
     const sheet = getSheet(employeeId)
     if (!sheet) return
@@ -121,7 +121,7 @@ export const useGoalStore = defineStore('goals', () => {
     persist()
   }
 
-  // Remove a goal
+
   function removeGoal(employeeId, goalId) {
     const sheet = getSheet(employeeId)
     if (!sheet) return
@@ -130,7 +130,7 @@ export const useGoalStore = defineStore('goals', () => {
     persist()
   }
 
-  // Validate the sheet
+
   function validateSheet(employeeId) {
     const sheet = getSheet(employeeId)
     if (!sheet) return { valid: false, errors: ['No sheet found'] }
@@ -152,7 +152,7 @@ export const useGoalStore = defineStore('goals', () => {
     return { valid: errors.length === 0, errors }
   }
 
-  // Submit for approval
+
   function submitSheet(employeeId) {
     const sheet = getSheet(employeeId)
     if (!sheet) return { error: 'No sheet found' }
@@ -165,7 +165,7 @@ export const useGoalStore = defineStore('goals', () => {
     return { success: true }
   }
 
-  // Manager approves
+
   function approveSheet(employeeId) {
     const sheet = getSheet(employeeId)
     if (!sheet) return
@@ -174,7 +174,7 @@ export const useGoalStore = defineStore('goals', () => {
     persist()
   }
 
-  // Manager returns
+
   function returnSheet(employeeId, comment) {
     const sheet = getSheet(employeeId)
     if (!sheet) return
@@ -184,7 +184,7 @@ export const useGoalStore = defineStore('goals', () => {
     persist()
   }
 
-  // Log achievement
+
   function logAchievement(employeeId, goalId, quarter, value) {
     const sheet = getSheet(employeeId)
     if (!sheet) return
@@ -195,7 +195,7 @@ export const useGoalStore = defineStore('goals', () => {
     persist()
   }
 
-  // Update goal status
+
   function updateGoalStatus(employeeId, goalId, status) {
     const sheet = getSheet(employeeId)
     if (!sheet) return
@@ -206,7 +206,7 @@ export const useGoalStore = defineStore('goals', () => {
     persist()
   }
 
-  // Compute progress score for a goal
+
   function computeScore(goal, quarter) {
     const achievement = Number(goal.achievements[quarter])
     const target = Number(goal.target)
@@ -216,23 +216,23 @@ export const useGoalStore = defineStore('goals', () => {
     switch (goal.uom) {
       case 'numeric':
       case 'percentage':
-        // Higher is better: Achievement / Target
+
         if (target === 0) return 0
-        return Math.min((achievement / target) * 100, 150) // cap at 150%
+        return Math.min((achievement / target) * 100, 150)
       case 'timeline':
-        // Timeline: compare dates — simplified to numeric days
-        // Negative = early, Positive = late
+
+
         if (target === 0) return 100
         return achievement <= target ? 100 : Math.max(0, 100 - ((achievement - target) / target * 100))
       case 'zero':
-        // Zero-based: if achievement is 0 → 100%, else 0%
+
         return achievement === 0 ? 100 : 0
       default:
         return 0
     }
   }
 
-  // Compute weighted score for an employee
+
   function computeWeightedScore(employeeId, quarter) {
     const sheet = getSheet(employeeId)
     if (!sheet) return 0
@@ -246,17 +246,17 @@ export const useGoalStore = defineStore('goals', () => {
     return Math.round(totalScore * 100) / 100
   }
 
-  // Get all sheets (for admin)
+
   function getAllSheets() {
     return goalSheets.value
   }
 
-  // Get sheets by status
+
   function getSheetsByStatus(status) {
     return goalSheets.value.filter(s => s.status === status)
   }
 
-  // Get sheets for a manager's team
+
   function getTeamSheets(teamMemberIds) {
     return goalSheets.value.filter(s => teamMemberIds.includes(s.employeeId))
   }

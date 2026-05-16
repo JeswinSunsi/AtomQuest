@@ -25,7 +25,7 @@ function handleLogin() {
         </div>
         <h1 class="visual-title animate-slide-up">Accelerate Your Enterprise Performance.</h1>
         <p class="visual-subtitle animate-slide-up" style="animation-delay: 100ms;">
-          AtomQuest aligns teams, tracks goals, and drives measurable outcomes across your entire organization.
+          AtomTrack aligns teams, tracks goals, and drives measurable outcomes across your entire organization.
         </p>
         
         <div class="visual-decorative animate-slide-up" style="animation-delay: 200ms;">
@@ -106,7 +106,7 @@ function handleLogin() {
 </template>
 
 <style scoped>
-/* Keyframes for subtle animations */
+ 
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -132,7 +132,7 @@ function handleLogin() {
   background: var(--bg-primary);
 }
 
-/* --- Left Side: Visual/Branding --- */
+ 
 .login-visual {
   display: none;
   flex: 1.2;
@@ -291,7 +291,7 @@ function handleLogin() {
 
 [data-theme="dark"] .mock-line { background: rgba(255, 255, 255, 0.2); }
 
-/* Background Abstract Shapes */
+ 
 .visual-overlay {
   position: absolute;
   top: 0;
@@ -311,7 +311,7 @@ function handleLogin() {
     radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
 }
 
-/* --- Right Side: Form Panel --- */
+ 
 .login-panel {
   flex: 1;
   display: flex;

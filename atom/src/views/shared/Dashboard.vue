@@ -12,7 +12,7 @@ const escalationStore = useEscalationStore()
 
 const user = computed(() => auth.currentUser)
 
-// Employee stats
+
 const mySheet = computed(() => goalStore.getSheet(user.value?.id))
 const myGoalCount = computed(() => mySheet.value?.goals?.length || 0)
 const mySheetStatus = computed(() => mySheet.value?.status || 'none')
@@ -21,7 +21,7 @@ const myWeightedScore = computed(() => {
   return q ? goalStore.computeWeightedScore(user.value?.id, q) : 0
 })
 
-// Current quarter
+
 const currentQuarter = computed(() => {
   const m = new Date().getMonth() + 1
   if (m >= 5 && m <= 7) return 'Q1'
@@ -32,13 +32,13 @@ const currentQuarter = computed(() => {
 
 const currentWindow = computed(() => checkinStore.getCurrentWindow())
 
-// Manager stats
+
 const teamMembers = computed(() => auth.getTeamMembers(user.value?.id))
 const teamSheets = computed(() => goalStore.getTeamSheets(teamMembers.value.map(m => m.id)))
 const pendingReviews = computed(() => teamSheets.value.filter(s => s.status === SHEET_STATUS.SUBMITTED).length)
 const approvedSheets = computed(() => teamSheets.value.filter(s => s.status === SHEET_STATUS.LOCKED).length)
 
-// Admin stats
+
 const allEmployees = computed(() => auth.getEmployees())
 const allSheets = computed(() => goalStore.getAllSheets())
 const totalLocked = computed(() => allSheets.value.filter(s => s.status === SHEET_STATUS.LOCKED).length)
@@ -51,7 +51,7 @@ const completionRate = computed(() => {
 
 const escalationStats = computed(() => escalationStore.stats)
 
-// Checkin completion stats
+
 const checkinStats = computed(() => {
   const empIds = auth.isManager 
     ? teamMembers.value.map(m => m.id)

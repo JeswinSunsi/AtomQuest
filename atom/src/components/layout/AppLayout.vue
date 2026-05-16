@@ -68,7 +68,7 @@ function handleLogout() {
           </svg>
         </div>
         <div class="brand-text">
-          <span class="brand-name">AtomQuest</span>
+          <span class="brand-name">AtomTrack</span>
         </div>
       </div>
 

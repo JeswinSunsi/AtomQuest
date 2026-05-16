@@ -28,7 +28,7 @@ ChartJS.register(
   Filler
 )
 
-// Theming support
+
 const isDark = computed(() => document.documentElement.getAttribute('data-theme') === 'dark')
 const textColor = computed(() => isDark.value ? '#e5e7eb' : '#374151')
 const gridColor = computed(() => isDark.value ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)')
@@ -66,9 +66,9 @@ const pieOptions = computed(() => ({
   }
 }))
 
-// Mock Data
 
-// 1. QoQ Goal Achievement
+
+
 const qoqData = {
   labels: ['Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025'],
   datasets: [
@@ -91,7 +91,7 @@ const qoqData = {
   ]
 }
 
-// 2. Organization Completion Rates
+
 const completionData = {
   labels: ['Engineering', 'Sales', 'Marketing', 'HR', 'Finance'],
   datasets: [
@@ -104,7 +104,7 @@ const completionData = {
   ]
 }
 
-// 3. Goal Distribution
+
 const distributionData = {
   labels: ['Revenue', 'Productivity', 'Quality', 'Innovation', 'Culture'],
   datasets: [
@@ -115,7 +115,7 @@ const distributionData = {
   ]
 }
 
-// 4. Manager Effectiveness
+
 const managers = ref([
   { id: 1, name: 'Alice Smith', teamSize: 8, checkInRate: 95, goalCompletion: 88 },
   { id: 2, name: 'Bob Johnson', teamSize: 12, checkInRate: 82, goalCompletion: 76 },

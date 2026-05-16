@@ -18,7 +18,7 @@ const routes = [
     component: () => import('@/views/shared/Dashboard.vue'),
     meta: { roles: ['employee', 'manager', 'admin'] },
   },
-  // Employee routes
+
   {
     path: '/goals/create',
     name: 'GoalSheet',
@@ -37,7 +37,7 @@ const routes = [
     component: () => import('@/views/employee/CheckIn.vue'),
     meta: { roles: ['employee'] },
   },
-  // Manager routes
+
   {
     path: '/goals/team',
     name: 'TeamGoals',
@@ -57,7 +57,7 @@ const routes = [
     component: () => import('@/views/manager/TeamCheckins.vue'),
     meta: { roles: ['manager'] },
   },
-  // Admin routes
+
   {
     path: '/admin/push-kpi',
     name: 'PushKPI',
@@ -82,7 +82,7 @@ const routes = [
     component: () => import('@/views/admin/Analytics.vue'),
     meta: { roles: ['admin', 'manager'] },
   },
-  // Escalation routes
+
   {
     path: '/admin/escalation-rules',
     name: 'EscalationRules',
@@ -102,7 +102,7 @@ const router = createRouter({
   routes,
 })
 
-// Navigation guard
+
 router.beforeEach((to, from, next) => {
   const auth = useAuthStore()
 

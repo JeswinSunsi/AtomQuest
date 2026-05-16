@@ -4,7 +4,7 @@ import { useAuthStore } from './authStore'
 import { useGoalStore, SHEET_STATUS } from './goalStore'
 import { useCheckinStore, CHECK_IN_WINDOWS } from './checkinStore'
 
-// Trigger types
+
 export const TRIGGER_TYPES = {
   GOAL_NOT_SUBMITTED: 'goal_not_submitted',
   GOAL_NOT_APPROVED: 'goal_not_approved',
@@ -17,14 +17,14 @@ export const TRIGGER_LABELS = {
   [TRIGGER_TYPES.CHECKIN_OVERDUE]: 'Check-in Overdue',
 }
 
-// Escalation levels
+
 export const ESCALATION_LEVELS = {
   0: { label: 'Employee', badge: 'badge-info', role: 'employee' },
   1: { label: 'Manager', badge: 'badge-warning', role: 'manager' },
   2: { label: 'HR / Skip-Level', badge: 'badge-danger', role: 'hr' },
 }
 
-// Default rules
+
 const DEFAULT_RULES = [
   {
     id: 'rule_goal_not_submitted',
@@ -70,7 +70,7 @@ export const useEscalationStore = defineStore('escalation', () => {
   const rules = ref([])
   const escalationLogs = ref([])
 
-  // ── Persistence ──────────────────────────────────────
+
   function init() {
     const storedRules = localStorage.getItem('aq_escalationRules')
     if (storedRules) {
@@ -94,7 +94,7 @@ export const useEscalationStore = defineStore('escalation', () => {
     localStorage.setItem('aq_escalationLogs', JSON.stringify(escalationLogs.value))
   }
 
-  // ── Rule CRUD ────────────────────────────────────────
+
   function addRule(ruleData) {
     const rule = {
       id: 'rule_' + Date.now() + '_' + (_nextId++),
@@ -137,7 +137,7 @@ export const useEscalationStore = defineStore('escalation', () => {
     return rules.value.find(r => r.id === ruleId)
   }
 
-  // ── Log Management ──────────────────────────────────
+
   function addLogEntry(entry) {
     escalationLogs.value.unshift({
       id: 'esc_' + Date.now() + '_' + (_nextId++),
@@ -208,7 +208,7 @@ export const useEscalationStore = defineStore('escalation', () => {
     return logs
   }
 
-  // ── Evaluation Engine ────────────────────────────────
+
   function evaluateRules() {
     const authStore = useAuthStore()
     const goalStore = useGoalStore()
@@ -224,7 +224,7 @@ export const useEscalationStore = defineStore('escalation', () => {
       for (const emp of employees) {
         const violation = checkViolation(rule, emp, goalStore, checkinStore, now)
         if (!violation) {
-          // Auto-resolve any open escalations for this rule + employee
+
           const openEntries = escalationLogs.value.filter(
             e => e.ruleId === rule.id && e.employeeId === emp.id && e.status === 'open'
           )
@@ -232,13 +232,13 @@ export const useEscalationStore = defineStore('escalation', () => {
           continue
         }
 
-        // Check if there's already an open escalation for this rule + employee
+
         const existing = escalationLogs.value.find(
           e => e.ruleId === rule.id && e.employeeId === emp.id && e.status === 'open'
         )
 
         if (existing) {
-          // Check if we need to advance the escalation level
+
           const daysSinceTrigger = daysBetween(new Date(existing.triggerDate), now)
           const nextLevel = Math.min(
             Math.floor(daysSinceTrigger / rule.escalationIntervalDays),
@@ -256,7 +256,7 @@ export const useEscalationStore = defineStore('escalation', () => {
             persistLogs()
           }
         } else {
-          // Create new escalation entry
+
           const initialLevel = 0
           const targetRole = rule.escalationChain[initialLevel] || 'employee'
           const targetName = resolveTargetName(targetRole, emp, authStore)
@@ -283,9 +283,9 @@ export const useEscalationStore = defineStore('escalation', () => {
     switch (rule.triggerType) {
       case TRIGGER_TYPES.GOAL_NOT_SUBMITTED: {
         const sheet = goalStore.getSheet(employee.id)
-        // Violation if no sheet or sheet is still in draft/returned state
+
         if (!sheet || sheet.status === SHEET_STATUS.DRAFT || sheet.status === SHEET_STATUS.RETURNED) {
-          // Check if enough days have passed since cycle open (May 1st)
+
           const cycleOpenDate = getCycleOpenDate(now)
           const daysSinceOpen = daysBetween(cycleOpenDate, now)
           if (daysSinceOpen >= rule.thresholdDays) {
@@ -299,7 +299,7 @@ export const useEscalationStore = defineStore('escalation', () => {
 
       case TRIGGER_TYPES.GOAL_NOT_APPROVED: {
         const sheet = goalStore.getSheet(employee.id)
-        // Violation if sheet is submitted but not yet approved/locked
+
         if (sheet && sheet.status === SHEET_STATUS.SUBMITTED) {
           const submittedDate = new Date(sheet.updatedAt)
           const daysSinceSubmit = daysBetween(submittedDate, now)
@@ -313,13 +313,13 @@ export const useEscalationStore = defineStore('escalation', () => {
       }
 
       case TRIGGER_TYPES.CHECKIN_OVERDUE: {
-        // Check current active quarter window
+
         const currentWindow = checkinStore.getCurrentWindow()
         if (!currentWindow || currentWindow === 'Goal Setting') return null
 
         const checkin = checkinStore.getCheckin(employee.id, currentWindow)
         if (!checkin) {
-          // Check how many days the window has been open
+
           const windowConfig = CHECK_IN_WINDOWS[currentWindow]
           if (windowConfig) {
             const windowOpenDate = getWindowOpenDate(windowConfig, now)
@@ -339,16 +339,16 @@ export const useEscalationStore = defineStore('escalation', () => {
     }
   }
 
-  // ── Helpers ──────────────────────────────────────────
+
   function daysBetween(date1, date2) {
     const msPerDay = 1000 * 60 * 60 * 24
     return Math.floor((date2 - date1) / msPerDay)
   }
 
   function getCycleOpenDate(now) {
-    // Goal-setting cycle opens May 1st each year
+
     const year = now.getMonth() >= 4 ? now.getFullYear() : now.getFullYear() - 1
-    return new Date(year, 4, 1) // May 1st
+    return new Date(year, 4, 1)
   }
 
   function getWindowOpenDate(windowConfig, now) {
@@ -374,7 +374,7 @@ export const useEscalationStore = defineStore('escalation', () => {
     }
   }
 
-  // ── Stats ────────────────────────────────────────────
+
   const stats = computed(() => {
     const open = escalationLogs.value.filter(e => e.status === 'open')
     const resolved = escalationLogs.value.filter(e => e.status === 'resolved' || e.status === 'auto_resolved')
