@@ -1,11 +1,23 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 
 const router = useRouter()
 const route = useRoute()
 const auth = useAuthStore()
+const isDark = ref(false)
+
+onMounted(() => {
+  isDark.value = document.documentElement.getAttribute('data-theme') === 'dark'
+})
+
+function toggleTheme() {
+  isDark.value = !isDark.value
+  const newTheme = isDark.value ? 'dark' : 'light'
+  document.documentElement.setAttribute('data-theme', newTheme)
+  localStorage.setItem('theme', newTheme)
+}
 
 const navItems = computed(() => {
   const role = auth.currentUser?.role
@@ -87,9 +99,15 @@ function handleLogout() {
             <span class="user-role">{{ auth.currentUser?.role }}</span>
           </div>
         </div>
-        <button class="btn-logout" @click="handleLogout" title="Logout">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        </button>
+        <div class="footer-actions">
+          <button class="btn-action" @click="toggleTheme" :title="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+            <svg v-if="isDark" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg v-else viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          </button>
+          <button class="btn-action" @click="handleLogout" title="Logout">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </button>
+        </div>
       </div>
     </aside>
 
@@ -246,7 +264,13 @@ function handleLogout() {
   text-transform: capitalize;
 }
 
-.btn-logout {
+.footer-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.btn-action {
   background: none;
   border: none;
   color: var(--text-muted);
@@ -256,9 +280,10 @@ function handleLogout() {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all var(--transition-fast);
 }
 
-.btn-logout:hover {
+.btn-action:hover {
   background: var(--bg-tertiary);
   color: var(--text-primary);
 }
