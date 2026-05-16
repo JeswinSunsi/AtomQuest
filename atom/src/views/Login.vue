@@ -10,6 +10,10 @@ const selectedUserId = ref('')
 function handleLogin() {
   if (!selectedUserId.value) return
   auth.login(selectedUserId.value)
+  
+  document.documentElement.setAttribute('data-theme', 'light')
+  localStorage.setItem('theme', 'light')
+  
   router.push('/dashboard')
 }
 </script>
